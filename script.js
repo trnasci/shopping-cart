@@ -50,4 +50,5 @@ const createElementOfPage = async () => {
 
 window.onload = async () => {
   await createElementOfPage();
+  await fetchItem('MLB1615760527');
 };
