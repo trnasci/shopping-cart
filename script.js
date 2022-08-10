@@ -41,7 +41,9 @@ const createElementOfPage = async () => {
   const product = await fetchProducts('computador');
   const sectionItems = document.querySelector('.items');
   product.forEach((element) => {
-  const newProduct = createProductItemElement({ sku: element.id, name: element.title, image: element.thumbnail });
+  const newProduct = createProductItemElement({ sku: element.id,
+     name: element.title, 
+     image: element.thumbnail });
   sectionItems.appendChild(newProduct);
   });
 };
