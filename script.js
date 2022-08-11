@@ -26,8 +26,9 @@ const createProductItemElement = ({ sku, name, image }) => {
 
 const getSkuFromProductItem = (item) => item.querySelector('span.item__sku').innerText;
 
-const cartItemClickListener = (event) => {
-  // coloque seu código aqui
+const cartItemClickListener = () => {
+  const liCart = document.querySelector('.cart__items');
+  console.log(liCart);
 };
 
 const createCartItemElement = ({ sku, name, salePrice }) => {
