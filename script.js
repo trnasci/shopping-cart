@@ -1,6 +1,7 @@
 const olCart = document.querySelector('ol.cart__items');
 const sectionItems = document.querySelector('.items');
 const buttonClearCart = document.querySelector('.empty-cart');
+console.log(olCart.innerHTML);
 
 const createProductImageElement = (imageSource) => {
   const img = document.createElement('img');
