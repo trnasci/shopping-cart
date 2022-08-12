@@ -2,7 +2,6 @@ const olCart = document.querySelector('ol.cart__items');
 const sectionItems = document.querySelector('.items');
 const buttonClearCart = document.querySelector('.empty-cart');
 const sectionCart = document.querySelector('.cart');
-const olCartInit = olCart.innerHTML;
 
 const createProductImageElement = (imageSource) => {
   const img = document.createElement('img');
@@ -65,11 +64,8 @@ const createElementOfPage = async () => {
 buttonClearCart.addEventListener('click', () => {
   olCart.innerHTML = '';
 });
-const onLoadCartItems = () => {
-  olCart.innerHTML = getSavedCartItems();
-};
 
 window.onload = async () => {
   await createElementOfPage();
-  onLoadCartItems();
+  olCart.innerHTML = getSavedCartItems();
 };
