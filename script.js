@@ -1,6 +1,7 @@
 const olCart = document.querySelector('ol.cart__items');
 const sectionItems = document.querySelector('.items');
 const buttonClearCart = document.querySelector('.empty-cart');
+const totalPrice = document.querySelector('.total-price');
 
 const createProductImageElement = (imageSource) => {
   const img = document.createElement('img');
@@ -30,7 +31,12 @@ const createProductItemElement = ({ sku, name, image }) => {
 
 const getSkuFromProductItem = (item) => item.querySelector('span.item__sku').innerText;
 
-const cartItemClickListener = ({ target }) => target.remove();
+const cartItemClickListener = ({ target }) => {
+  target.remove();
+  totalPrice.innerText = Number(totalPrice.innerText) - Number(target.id);
+  localStorage.setItem('totalPrice', totalPrice.innerText);
+  saveCartItems(olCart.innerHTML);
+};
 
 const createCartItemElement = ({ sku, name, salePrice }) => {
   const li = document.createElement('li');
@@ -39,35 +45,43 @@ const createCartItemElement = ({ sku, name, salePrice }) => {
   li.addEventListener('click', cartItemClickListener);
   return li;
 };
-
-const createElementOfPage = async () => {
+const getProduct = async () => {
   const product = await fetchProducts('computador');
+  return product;
+};
+const createElementOfPage = (product) => {
   product.forEach((element) => {
-    const newProduct = createProductItemElement({
-      sku: element.id,
-      name: element.title,
-      image: element.thumbnail,
+    const newProduct = createProductItemElement({ 
+      sku: element.id, name: element.title, image: element.thumbnail,
     });
     sectionItems.appendChild(newProduct);
     const buttonElement = newProduct.querySelector('.item__add');
     buttonElement.addEventListener('click', async () => {
       const product2 = await fetchItem(getSkuFromProductItem(newProduct));
-      const elementLi = createCartItemElement(
-        { sku: product2.id, name: product2.title, salePrice: product2.price },
-      );
-      olCart.appendChild(elementLi);
-      saveCartItems(olCart.innerHTML);
-    });
+  const elementLi = createCartItemElement(
+    { sku: product2.id, name: product2.title, salePrice: product2.price },
+  );
+  elementLi.id = product2.price;
+  olCart.appendChild(elementLi);
+  saveCartItems(olCart.innerHTML);
+  totalPrice.innerText = Number(totalPrice.innerText) + product2.price;
+  localStorage.setItem('totalPrice', totalPrice.innerText);
+  });
   });
 };
+
 buttonClearCart.addEventListener('click', () => {
   olCart.innerHTML = '';
+  saveCartItems(olCart.innerHTML);
+  totalPrice.innerText = 0;
+  localStorage.setItem('totalPrice', totalPrice.innerText);
 });
 const onLoadLiCart = () => {
   olCart.innerHTML = getSavedCartItems();
 };
 
 window.onload = async () => {
-  await createElementOfPage();
+  createElementOfPage(await getProduct());
   onLoadLiCart();
+  totalPrice.innerText = localStorage.getItem('totalPrice');
 };
