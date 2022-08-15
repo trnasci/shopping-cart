@@ -79,9 +79,12 @@ buttonClearCart.addEventListener('click', () => {
 const onLoadLiCart = () => {
   olCart.innerHTML = getSavedCartItems();
 };
+const onLoadTotalPrice = () => {
+  totalPrice.innerText = localStorage.getItem('totalPrice');
+};
 
 window.onload = async () => {
   createElementOfPage(await getProduct());
   onLoadLiCart();
-  totalPrice.innerText = localStorage.getItem('totalPrice');
+  onLoadTotalPrice();  
 };
