@@ -10,13 +10,6 @@ const createProductImageElement = (imageSource) => {
   return img;
 };
 
-const createCartImageElemement = (imageSource) => {
-  const img = document.createElement('img');
-  img.className = 'cart__image';
-  img.src = imageSource;
-  return img;
-};
-
 const createCustomElement = (element, className, innerText) => {
   const e = document.createElement(element);
   e.className = className;
